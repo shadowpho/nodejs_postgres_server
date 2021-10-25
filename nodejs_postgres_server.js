@@ -1,8 +1,5 @@
-const { Pool, Client } = require('pg')
 var http = require('http'); 
-const config = { user: 'node_js', host: 'database', database: 'sensors', port:5432,  ssl: {rejectUnauthorized: false,},}
 
-const pool = new Pool(config)
 
 var temp = "0.0"
 var server = http.createServer(function (req, res) {   
@@ -31,6 +28,3 @@ var server = http.createServer(function (req, res) {
 //server.listen(4050); 
 	//
 //console.log('Node.js web server at port 4049 is running..')
-pool.query('SELECT * FROM rpi_sensor limit 1;', (err, res) => {
-	  if (err) { throw err }
-	  console.log(' ', res.rows[0]) })
