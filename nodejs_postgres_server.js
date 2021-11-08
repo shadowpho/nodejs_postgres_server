@@ -9,7 +9,8 @@ const async_db_interaction = async (body, res) => {
 	try {
 		const data = JSON.parse(body);
 		temp = data.sensor_data.temperature;//important to do this first!
-		var result = await db.db_store(body);
+
+		var result = await db.db_store(data);
 
 		console.log(result);
 		res.writeHead(200, { "Content-Type": "text/plan" });

@@ -30,9 +30,13 @@ pool.on('error', function(error, client) {
  
 module.exports = {
     db_store: (text) => {
+        var sql_call = "INSERT INTO esp32(time, sensor_id, temperature, pressure, humidity, battery) VALUES($1,$2,$3,$4,$5,$6);";
+
+        const values = [new Date().toISOString() , text.id, text.sensor_data.temperature, text.sensor_data.pressure, text.sensor_data.humidity, text.battery.battery_voltage];
+	
         return new Promise((success, failed) => {
 
-            pool.query(text, (err, res) => {
+            pool.query(sql_call,values, (err, res) => {
                 if (err) { 
                     console.log(err);
                     failed(err);
