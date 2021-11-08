@@ -1,3 +1,4 @@
+const { strictEqual } = require('assert');
 var http = require('http');
 var db = require('./db');
 
@@ -7,18 +8,21 @@ const async_db_interaction = async (body, res) => {
 	var response = "SUCCESS";
 	try {
 		const data = JSON.parse(body);
-		temp = data.sensor_data.temperature;
-		console.log(temp);
+		temp = data.sensor_data.temperature;//important to do this first!
+		var result = await db.db_store(body);
+
+		console.log(result);
+		res.writeHead(200, { "Content-Type": "text/plan" });
+		res.end("SUCCESS");
 	} catch (error) { 
-		console.error(error)
-		response = "FAILED TO PARSE JSON";
+		console.error(error);
+		console.error(body);
+		///XXX - differentiate on bad json vs database down
+		res.writeHead(400, { "Content-Type": "text/plan" });
+		res.end("FAILED");
 	};
 
-	var result = await db.db_store(body);
-	console.log(result);
-
-	res.writeHead(200, { "Content-Type": "text/plan" });
-	res.end(response);
+	
 };
 
 var server = http.createServer(function (req, res) {
@@ -29,6 +33,7 @@ var server = http.createServer(function (req, res) {
 		});
 		res.write(JSON.stringify({ temperature: temp }));
 		res.end();
+
 	} else if (req.method == "POST") {
 		var body = "";
 		req.on("data", function (chunk) {
