@@ -32,7 +32,7 @@ module.exports = {
     db_store: (text) => {
         var sql_call = "INSERT INTO esp32(time, sensor_id, temperature, pressure, humidity, battery) VALUES($1,$2,$3,$4,$5,$6);";
 
-        const values = [new Date().toISOString() , 33, text.sensor_data.temperature, text.sensor_data.pressure, text.sensor_data.humidity, text.battery.battery_voltage];
+        const values = [new Date().toISOString() , text.number, text.sensor_data.temperature, text.sensor_data.pressure, text.sensor_data.humidity, text.battery.battery_voltage];
 	
         return new Promise((success, failed) => {
 

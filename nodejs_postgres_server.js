@@ -9,7 +9,10 @@ const async_db_interaction = async (body, res) => {
 	try {
 		const data = JSON.parse(body);
 		temp = data.sensor_data.temperature;//important to do this first!
-
+		if(data.id == "")
+			data.number = 33;
+		if(data.id == "garage")
+			data.number = 34;
 		var result = await db.db_store(data);
 
 		console.log(result);
