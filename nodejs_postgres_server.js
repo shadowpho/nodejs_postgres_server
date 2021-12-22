@@ -19,7 +19,7 @@ const async_db_interaction = async (body, res) => {
 		}
 		var result = await db.db_store(data);
 
-		console.log(result);
+		//console.log(result);
 		res.writeHead(200, { "Content-Type": "text/plan" });
 		res.end("SUCCESS");
 	} catch (error) { 
