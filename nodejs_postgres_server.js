@@ -8,15 +8,20 @@ const async_db_interaction = async (body, res) => {
 	var response = "SUCCESS";
 	try {
 		const data = JSON.parse(body);
-		if(data.id == "Powered_Screen1")
+		if(data.id === "Powered_Screen1")
 		{
 			temp = data.sensor_data.temperature;//important to do this first!
 			data.number = 33;
 		}
-		if(data.id == "garage")
+		if(data.id === "garage")
 		{
 			data.number = 34;
 		}
+		if(data.id === "test")
+		{
+			data.number = 1;
+		}
+
 		var result = await db.db_store(data);
 
 		//console.log(result);
@@ -34,7 +39,7 @@ const async_db_interaction = async (body, res) => {
 };
 
 var server = http.createServer(function (req, res) {
-	if (req.method == "GET") {
+	if (req.method === "GET") {
 		res.writeHead(200, {
 			"Content-Type": "application/json",
 			"Access-Control-Allow-Origin": "*"
@@ -42,7 +47,7 @@ var server = http.createServer(function (req, res) {
 		res.write(JSON.stringify({ temperature: temp }));
 		res.end();
 
-	} else if (req.method == "POST") {
+	} else if (req.method === "POST") {
 		var body = "";
 		req.on("data", function (chunk) {
 			body += chunk;
