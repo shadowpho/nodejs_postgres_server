@@ -47,7 +47,7 @@ var server = http.createServer(function (req, res) {
 		res.write(JSON.stringify({ temperature: temp }));
 		res.end();
 
-	} else if (req.method === "POST" && request.url === '/logs'){
+	} else if (req.method === "POST" && req.url === '/logs'){
 		var body = "";
 		req.on("data", function (chunk) {
 			body += chunk;
