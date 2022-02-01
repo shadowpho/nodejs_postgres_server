@@ -1,4 +1,6 @@
 const { strictEqual } = require('assert');
+const statik = require('node-static');
+
 var http = require('http');
 var db = require('./db');
 
@@ -13,18 +15,20 @@ const async_db_interaction = async (body, res) => {
 			temp = data.sensor_data.temperature;//important to do this first!
 			data.number = 33;
 		}
-		if(data.id === "garage")
+		else if(data.id === "garage")
 		{
 			data.number = 34;
 		}
-		if(data.id === "test")
+		else if(data.id === "test")
 		{
 			data.number = 1;
 		}
+		else 
+		{
+			throw "wrong data number!";
+		}
 
 		var result = await db.db_store(data);
-
-		//console.log(result);
 		res.writeHead(200, { "Content-Type": "text/plan" });
 		res.end("SUCCESS");
 	} catch (error) { 
@@ -34,14 +38,11 @@ const async_db_interaction = async (body, res) => {
 		res.writeHead(400, { "Content-Type": "text/plan" });
 		res.end("FAILED");
 	};
-
-	
-};
+}
 
 var server = http.createServer(function (req, res) {
 	if(req.url === '/lasttemp')
-	{
-		//req.method === "GET"
+	{//req.method === "GET"
 		res.writeHead(200, {
 			"Content-Type": "application/json",
 			"Access-Control-Allow-Origin": "*"
@@ -49,8 +50,7 @@ var server = http.createServer(function (req, res) {
 		res.write(JSON.stringify({ temperature: temp }));
 		res.end();
 	}else if(req.url === '/logs')
-	{
-		//req.method === "POST" 
+	{//req.method === "POST" 
 		var body = "";
 		req.on("data", function (chunk) {
 			body += chunk;
@@ -61,7 +61,7 @@ var server = http.createServer(function (req, res) {
 			res.end("SUCCESS");
 		});
 	}else if(req.url === '/sensor_data')
-	{
+	{//req.method === "POST" 
 		var body = "";
 		req.on("data", function (chunk) {
 			body += chunk;
