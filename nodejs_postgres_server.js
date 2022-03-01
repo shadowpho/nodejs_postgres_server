@@ -23,12 +23,18 @@ const async_db_interaction = async (body, res) => {
 		{
 			data.number = 1;
 		}
+		else if(data.id === "null")
+		{
+			data.number = 0;
+		}
 		else 
 		{
 			throw "wrong data number!";
 		}
 
-		var result = await db.db_store(data);
+		if(data.number != 0)
+			var result = await db.db_store(data);
+			
 		res.writeHead(200, { "Content-Type": "text/plan" });
 		res.end("SUCCESS");
 	} catch (error) { 
