@@ -1,5 +1,5 @@
 const { strictEqual } = require('assert');
-const statik = require('node-static');
+
 
 var http = require('http');
 var db = require('./db');
@@ -34,7 +34,7 @@ const async_db_interaction = async (body, res) => {
 
 		if(data.number != 0)
 			var result = await db.db_store(data);
-			
+
 		res.writeHead(200, { "Content-Type": "text/plan" });
 		res.end("SUCCESS");
 	} catch (error) { 
